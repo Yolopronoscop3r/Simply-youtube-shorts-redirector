@@ -1,17 +1,27 @@
 // ==UserScript==
 // @name         Simply youtube shorts redirector
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2137
 // @description  Redirecting youtub shorts!
-// @author       Macieg
-// @match           https://www.youtube.com/shorts/*
-// @match           https://m.youtube.com/shorts/*
-// @match           https://www.youtube-nocookie.com/shorts/*
-// @match           https://music.youtube.com/shorts/*
-// @run-at          document-start
-// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @grant        none
+// @author       Yolopronoscop3r & AvengeR-13
+// @match        https://www.youtube.com/*
+// @match        http://www.youtube.com/*
+// @match        https://m.youtube.com/*
+// @match        https://www.youtube-nocookie.com/*
+// @match        https://music.youtube.com/*
+// @run-at       document-start
+
 // ==/UserScript==
 
-//    if (/shorts\//.test(location.pathname) ) {
-location.replace(location.protocol + "//" + location.host + location.pathname.replace(/shorts\//, "watch?v=") + location.search + location.hash);
+let previousUrl = '';
+const observer = new MutationObserver(function (mutations) {
+    if (location.href !== previousUrl) {
+        previousUrl = location.href;
+        if (/shorts\//.test(location.pathname)) {
+            location.replace(location.protocol + "//" + location.host + location.pathname.replace(/shorts\//, "watch?v=") + location.search + location.hash);
+        }
+    }
+});
+
+const config = { subtree: true, childList: true };
+observer.observe(document, config);
